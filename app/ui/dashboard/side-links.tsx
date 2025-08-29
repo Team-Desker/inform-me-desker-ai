@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
-
-const links = [
-  { name: "수신함", href: "/dashboard/invoices/chatroom-sessions" },
-  { name: "AI", href: "/dashboard/ai" },
-];
+import SideNavLinks from "./side-nav-links";
 
 const SideLinks = () => {
   return (
     <div className="flex flex-col space-y-2">
-      {links.map((link) => {
+      {SideNavLinks.map((link) => {
         return (
           <Link
             key={link.name}

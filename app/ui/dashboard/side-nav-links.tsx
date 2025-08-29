@@ -1,5 +1,5 @@
 const SideNavLinks = [
-  { name: "수신함", href: "/dashboard/invoices/chatroom-sessions" },
+  { name: "수신함", href: "/dashboard/invoices" },
   { name: "AI", href: "/dashboard/ai" },
 ];
 

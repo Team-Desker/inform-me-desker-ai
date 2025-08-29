@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <SideNavBar />
         </div>
       </div>
-      <div className="flex-grow p-6 md:p-12 bg-brown-300">{children}</div>
+      <div className="flex-grow p-6 md:p-12">{children}</div>
     </div>
   );
 };

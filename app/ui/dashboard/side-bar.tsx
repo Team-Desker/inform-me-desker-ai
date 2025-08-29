@@ -1,5 +1,6 @@
 import Link from "next/link";
 import LogoImage from "./logo-image";
+import SideLinks from "./side-links";
 import { PowerIcon } from "@heroicons/react/24/outline";
 
 const SideBar = () => {
@@ -14,7 +15,9 @@ const SideBar = () => {
         </div>
       </Link>
       <div className="flex grow flex-col justify-between space-y-2">
-        <div className="h-auto w-full grow rounded-md"></div>
+        <div className="h-auto w-full grow rounded-md">
+          <SideLinks />
+        </div>
         <div>
           <button
             type="button"

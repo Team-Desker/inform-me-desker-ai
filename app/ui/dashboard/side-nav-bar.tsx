@@ -17,6 +17,14 @@ const SideNavBar = () => {
     ];
   }
 
+  if (pathname.indexOf("/dashboard/ai") !== -1) {
+    sectionTitle = "AI";
+    menuList = [
+      { title: "설정", href: "/dashboard/ai/settings" },
+      { title: "통계", href: "/dashboard/ai/analytics" },
+    ];
+  }
+
   return (
     <div className="flex h-full flex-col px-3 py-4">
       <div className="h-auto w-full grow rounded-md bg-brown-100">

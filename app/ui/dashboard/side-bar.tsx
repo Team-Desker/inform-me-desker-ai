@@ -1,5 +1,6 @@
 import Link from "next/link";
 import LogoImage from "./logo-image";
+import { PowerIcon } from "@heroicons/react/24/outline";
 
 const SideBar = () => {
   return (
@@ -12,6 +13,18 @@ const SideBar = () => {
           <LogoImage />
         </div>
       </Link>
+      <div className="flex grow flex-col justify-between space-y-2">
+        <div className="h-auto w-full grow rounded-md"></div>
+        <div>
+          <button
+            type="button"
+            className="flex h-[48px] w-full items-center justify-center gap-2 rounded-md bg-brown-200 p-3 text-sm font-medium hover:bg-brown-800 hover:text-white"
+          >
+            <PowerIcon className="w-6" />
+            <span className="hidden md:block">Sign Out</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 };

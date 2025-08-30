@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-const SideLinks = ({ user_id }: { user_id: number }) => {
+const SideLinks = ({ userId }: { userId: number }) => {
   const NaVLink = [
-    { name: "수신함", href: `/dashboard/${user_id}/invoices` },
-    { name: "AI", href: `/dashboard/${user_id}/chatbot` },
+    { name: "수신함", href: `/dashboard/${userId}/invoices` },
+    { name: "AI", href: `/dashboard/${userId}/chatbot` },
   ];
   return (
     <div className="flex flex-col space-y-2">

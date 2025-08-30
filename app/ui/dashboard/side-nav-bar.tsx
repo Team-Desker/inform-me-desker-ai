@@ -36,7 +36,7 @@ const SideNavBar = () => {
             <Link
               key={item.href}
               href={item.href}
-              className="block rounded-md bg-white p-3 text-sm hover:bg-brown-200"
+              className="block text-center rounded-md bg-white p-3 text-sm hover:bg-brown-200"
             >
               {item.title}
             </Link>

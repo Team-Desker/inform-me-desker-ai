@@ -46,7 +46,6 @@
     "eslint-plugin-prettier": "^5.5.4",
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "prima": "^0.0.1",
     "prisma": "^6.15.0",
     "tsx": "^4.20.5"
   },

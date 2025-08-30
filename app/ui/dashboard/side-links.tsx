@@ -1,13 +1,13 @@
 import Link from "next/link";
 
 const SideLinks = ({ userId }: { userId: number }) => {
-  const NaVLink = [
+  const navLinks = [
     { name: "수신함", href: `/dashboard/${userId}/invoices` },
     { name: "AI", href: `/dashboard/${userId}/chatbot` },
   ];
   return (
     <div className="flex flex-col space-y-2">
-      {NaVLink.map((link) => {
+      {navLinks.map((link) => {
         return (
           <Link
             key={link.name}

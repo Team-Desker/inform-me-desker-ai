@@ -1,12 +1,13 @@
-"use client";
-
 import Link from "next/link";
-import SideNavLinks from "./side-nav-links";
 
-const SideLinks = () => {
+const SideLinks = ({ user_id }: { user_id: number }) => {
+  const NaVLink = [
+    { name: "수신함", href: `/dashboard/${user_id}/invoices` },
+    { name: "AI", href: `/dashboard/${user_id}/chatbot` },
+  ];
   return (
     <div className="flex flex-col space-y-2">
-      {SideNavLinks.map((link) => {
+      {NaVLink.map((link) => {
         return (
           <Link
             key={link.name}

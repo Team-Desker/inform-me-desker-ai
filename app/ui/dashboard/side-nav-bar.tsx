@@ -3,36 +3,36 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SideNavBar = ({ user_id }: { user_id: number }) => {
+const SideNavBar = ({ userId }: { userId: number }) => {
   const pathname = usePathname();
 
   let sectionTitle = "";
   let menuList: { title: string; href: string }[] = [];
 
-  if (pathname.indexOf(`/dashboard/${user_id}/invoices`) !== -1) {
+  if (pathname.indexOf(`/dashboard/${userId}/invoices`) !== -1) {
     sectionTitle = "수신함";
     menuList = [
       {
         title: "대화 목록",
-        href: `/dashboard/${user_id}/invoices/chatroom-sessions`,
+        href: `/dashboard/${userId}/invoices/chatroom-sessions`,
       },
       {
         title: "방문자 연락처",
-        href: `/dashboard/${user_id}/invoices/inquiries`,
+        href: `/dashboard/${userId}/invoices/inquiries`,
       },
     ];
   }
 
-  if (pathname.indexOf(`/dashboard/${user_id}/chatbot`) !== -1) {
+  if (pathname.indexOf(`/dashboard/${userId}/chatbot`) !== -1) {
     sectionTitle = "AI";
     menuList = [
       {
         title: "설정",
-        href: `/dashboard/${user_id}/chatbot/setting`,
+        href: `/dashboard/${userId}/chatbot/setting`,
       },
       {
         title: "통계",
-        href: `/dashboard/${user_id}/chatbot/statistics`,
+        href: `/dashboard/${userId}/chatbot/statistics`,
       },
     ];
   }

@@ -3,7 +3,7 @@ import LogoImage from "./logo-image";
 import SideLinks from "./side-links";
 import { PowerIcon } from "@heroicons/react/24/outline";
 
-const SideBar = ({ user_id }: { user_id: number }) => {
+const SideBar = ({ userId }: { userId: number }) => {
   return (
     <div className="flex h-full flex-col px-3 py-4">
       <Link
@@ -16,7 +16,7 @@ const SideBar = ({ user_id }: { user_id: number }) => {
       </Link>
       <div className="flex grow flex-col justify-between space-y-2">
         <div className="h-auto w-full grow rounded-md">
-          <SideLinks user_id={user_id} />
+          <SideLinks userId={userId} />
         </div>
         <div>
           <button

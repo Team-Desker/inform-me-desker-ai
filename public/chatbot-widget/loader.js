@@ -10,7 +10,7 @@
   window.DESKER_CHATBOT_CONFIG = {
     botId,
     // 배포후 서버 도메인 생기는 경우 변경필요
-    apiBaseUrl: "http://localhost:3000"
+    apiBaseURL: "http://localhost:3000"
   }
 
   const container = document.createElement('div');

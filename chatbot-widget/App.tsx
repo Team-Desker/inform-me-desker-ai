@@ -15,7 +15,7 @@ const App = ({ config }: AppProps) => {
     right: "20px",
     width: "300px",
     padding: "20px",
-    backgroundColor: "white",
+    backgroundColor: "gray",
     border: "1px solid #ddd",
     borderRadius: "10px",
     boxShadow: "0 4px 8px rgba(0,0,0,0.1)",

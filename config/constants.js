@@ -21,6 +21,6 @@ export const AUTH_VALIDATION = {
     PHONE_TOO_LONG: "전화번호가 너무 깁니다.",
   },
   PHONE_NUMBER: {
-    PATTERN: /^010-\d{4}-\d{4}$/,
+    PATTERN: /^\+82\d{8,10}$/,
   },
 };

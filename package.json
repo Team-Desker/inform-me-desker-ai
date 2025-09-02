@@ -6,7 +6,8 @@
   "scripts": {
     "start": "next start",
     "build": "next build",
-    "build:widget": "esbuild chatbot-widget/index.tsx --bundle --outfile=public/chatbot-widget/widget.js --minify --jsx=automatic",
+    "build:widget": "esbuild chatbot-widget/index.tsx --bundle --outfile=public/chatbot-widget/widget.js --jsx=automatic",
+    "build:widget:css": "tailwindcss -i ./chatbot-widget/styles.css -o ./public/chatbot-widget/widget.css --minify",
     "dev": "next dev",
     "lint": "next lint",
     "format": "prettier --write .",

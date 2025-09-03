@@ -15,7 +15,7 @@ export const GET = async (_req: NextRequest) => {
         {
           error: {
             code: "LOGIN_REQUIRED",
-            mesaage: "로그인이 필요합니다.",
+            message: "로그인이 필요합니다.",
           },
         },
         { status: 401 }
@@ -32,18 +32,17 @@ export const GET = async (_req: NextRequest) => {
         {
           error: {
             code: "CHATBOT_NOT_FOUND",
-            mesaage: "연결된 해당 챗봇이 존재하지 않습니다.",
+            message: "연결된 해당 챗봇이 존재하지 않습니다.",
           },
         },
         { status: 404 }
       );
     }
 
-    const chatBotSession = await prisma.chatSession.findMany({
+    const chatBotSessions = await prisma.chatSession.findMany({
       where: { botId: userChatbot.id },
       select: {
         id: true,
-        botId: true,
         visitorId: true,
         isRead: true,
         createdAt: true,
@@ -57,7 +56,7 @@ export const GET = async (_req: NextRequest) => {
     });
 
     return NextResponse.json(
-      { data: chatBotSession, message: "대화목록을 조회하였습니다." },
+      { data: chatBotSessions, message: "대화목록을 조회하였습니다." },
       { status: 200 }
     );
   } catch (err) {

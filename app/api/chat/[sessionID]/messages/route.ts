@@ -7,7 +7,21 @@ export const GET = async (
 ) => {
   const { sessionID } = await params;
 
-  // session이 없는 경우는 에러처리 필요 -> findmany에서 없는 경우는 빈배열
+  const sessionExists = await prisma.chatSession.findUnique({
+    where: { id: sessionID },
+  });
+
+  if (!sessionExists) {
+    return NextResponse.json(
+      {
+        error: {
+          code: "NOT_FOUND",
+          message: "요청하신 채팅 세션을 찾을 수 없습니다.",
+        },
+      },
+      { status: 404 }
+    );
+  }
 
   try {
     const messages = await prisma.chatMessage.findMany({

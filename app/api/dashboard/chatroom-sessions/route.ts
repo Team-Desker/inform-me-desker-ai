@@ -55,8 +55,18 @@ export const GET = async (_req: NextRequest) => {
       orderBy: { createdAt: "desc" },
     });
 
+    const parsedSessions = chatBotSessions.map((session) => {
+      return {
+        sessionId: session.id,
+        visitorId: session.visitorId,
+        isRead: session.isRead,
+        createdAt: session.createdAt,
+        preview: session.messages.length ? session.messages[0] : null,
+      };
+    });
+
     return NextResponse.json(
-      { data: chatBotSessions, message: "대화목록을 조회하였습니다." },
+      { data: parsedSessions, message: "대화목록을 조회하였습니다." },
       { status: 200 }
     );
   } catch (err) {

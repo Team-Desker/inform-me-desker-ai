@@ -71,6 +71,15 @@ export const GET = async (
       select: { id: true, sender: true, content: true, createdAt: true },
     });
 
+    const parsedMessage = chatMessages.map((message) => {
+      return {
+        messageId: message.id,
+        sender: message.sender,
+        content: message.content,
+        createdAt: message.createdAt,
+      };
+    });
+
     return NextResponse.json(
       {
         data: {
@@ -79,7 +88,7 @@ export const GET = async (
             visitorId: chatBotSessions.visitorId,
             isRead: chatBotSessions.isRead,
           },
-          chatMessages,
+          parsedMessage,
         },
         message: "상세 대화 조회하였습니다.",
       },

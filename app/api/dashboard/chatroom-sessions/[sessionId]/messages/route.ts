@@ -42,7 +42,7 @@ export const GET = async (
       );
     }
 
-    const sessionId = params.sessionId;
+    const { sessionId } = await params;
     const chatBotSessions = await prisma.chatSession.findFirst({
       where: { id: sessionId, botId: userChatbot.id },
       select: {

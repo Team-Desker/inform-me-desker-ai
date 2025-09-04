@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from "@/config/constants";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -10,7 +11,7 @@ export const POST = async (req: Request) => {
         {
           error: {
             code: "NOT_FOUND_BOTID_VISITORID",
-            message: "해당 봇이나 방문객을 찾을 수 없습니다",
+            message: ERROR_MESSAGE.NOT_FOUND_BOTID_VISITORID,
           },
         },
         { status: 400 }
@@ -56,8 +57,8 @@ export const POST = async (req: Request) => {
     return NextResponse.json(
       {
         error: {
-          code: "ERROR_CHAT_SESSION_CREATION",
-          message: "새로운 채팅방 생성하는데 실패했습니다",
+          code: "INTERNAL_SERVER_ERROR",
+          message: ERROR_MESSAGE.INTERNAL_SERVER_ERROR_SESSION,
         },
       },
       { status: 500 }

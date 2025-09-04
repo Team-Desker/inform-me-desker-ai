@@ -56,12 +56,18 @@ export const GET = async (_req: NextRequest) => {
     });
 
     const parsedSessions = chatBotSessions.map((session) => {
+      const latestMessage = session.messages.length
+        ? session.messages[0]
+        : null;
+      const parsedPreview = latestMessage
+        ? JSON.parse(latestMessage.content)
+        : null;
       return {
         sessionId: session.id,
         visitorId: session.visitorId,
         isRead: session.isRead,
         createdAt: session.createdAt,
-        preview: session.messages.length ? session.messages[0] : null,
+        preview: parsedPreview,
       };
     });
 

@@ -72,10 +72,11 @@ export const GET = async (
     });
 
     const parsedMessage = chatMessages.map((message) => {
+      const parsedContentMessage = JSON.parse(message.content);
       return {
         messageId: message.id,
         sender: message.sender,
-        content: message.content,
+        content: parsedContentMessage,
         createdAt: message.createdAt,
       };
     });

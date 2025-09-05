@@ -7,7 +7,10 @@ const nextConfig: NextConfig = {
         source: "/api/:path*",
         headers: [
           { key: "Access-Control-Allow-Credentials", value: "true" },
-          { key: "Access-Control-Allow-Origin", value: "*" }, // 개발 중에는 모든 출처(*)를 허용합니다.
+          {
+            key: "Access-Control-Allow-Origin",
+            value: process.env.DESKER_CLIENTS_DOMAIN || "*",
+          },
           {
             key: "Access-Control-Allow-Methods",
             value: "GET,OPTIONS,PATCH,DELETE,POST,PUT",

@@ -1,10 +1,10 @@
 import { ERROR_MESSAGE } from "@/config/constants";
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async (req: Request) => {
+export const GET = async (req: NextRequest) => {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams = req.nextUrl.searchParams;
     const botId = searchParams.get("botId");
     const visitorId = searchParams.get("visitorId");
 

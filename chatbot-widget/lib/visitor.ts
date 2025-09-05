@@ -9,6 +9,9 @@ export const getOrSetVisitorId = () => {
   const existingId = ls.get(VISITOR_ID_KEY);
 
   if (existingId) {
+    ls.set(VISITOR_ID_KEY, existingId, {
+      ttl: TTL_INFO.SESSION_STORAGE_VISITOR,
+    });
     return existingId;
   }
 

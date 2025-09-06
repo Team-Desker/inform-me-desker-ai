@@ -8,6 +8,7 @@ interface ChatbotButtonProps {
 const ChatbotButton = ({ onClick }: ChatbotButtonProps) => {
   return (
     <div
+      id="desker-ai-chatbot-button"
       onClick={onClick}
       className="w-64 cursor-pointer z-[9999]"
       title="DESKER AI 안내원과 대화하기"

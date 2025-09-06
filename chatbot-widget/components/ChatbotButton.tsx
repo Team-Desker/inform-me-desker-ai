@@ -9,7 +9,7 @@ const ChatbotButton = ({ onClick }: ChatbotButtonProps) => {
   return (
     <div
       onClick={onClick}
-      className="w-[350px] ml-52 cursor-pointer z-[9999]"
+      className="w-64 cursor-pointer z-[9999]"
       title="DESKER AI 안내원과 대화하기"
     >
       {/* 오른쪽 챗봇 아이콘 요소 */}

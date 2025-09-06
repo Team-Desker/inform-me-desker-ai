@@ -1,10 +1,11 @@
 import React from "react";
 
 interface ChatWindowProps {
+  chatId: string;
   apiUrl: string;
 }
 
-export default function ChatWindow({ apiUrl }: ChatWindowProps) {
+export default function ChatWindow({ chatId, apiUrl }: ChatWindowProps) {
   return (
     <iframe
       src={`${apiUrl}`}

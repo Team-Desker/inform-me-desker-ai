@@ -22,23 +22,34 @@ const App = ({ chatbotConfig }: AppProps) => {
       if (visitorId && botId && apiBaseURL) {
         setIsLoading(false);
       }
-
       return;
     }
 
     const initializeChatSession = async () => {
       try {
-        const chatsessionRespone = await fetch(
-          `${apiBaseURL}/api/chat/session`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ botId, visitorId }),
-          }
+        const responseToGetSession = await fetch(
+          `${apiBaseURL}/api/chat/session?botId=${botId}&visitorId=${visitorId}`
         );
 
-        const { chatSessionId } = await chatsessionRespone.json();
-        setChatSessionId(chatSessionId);
+        if (responseToGetSession.ok) {
+          const chatSessionData = await responseToGetSession.json();
+          setChatSessionId(chatSessionData.chatSessionId);
+          return;
+        }
+
+        if (responseToGetSession.status === 404) {
+          const responseToCreateSession = await fetch(
+            `${apiBaseURL}/api/chat/session`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ botId, visitorId }),
+            }
+          );
+
+          const chatSessionData = await responseToCreateSession.json();
+          setChatSessionId(chatSessionData.chatSessionId);
+        }
       } catch (error) {
         console.error("세션 초기화 실패: ", error);
       } finally {
@@ -47,7 +58,7 @@ const App = ({ chatbotConfig }: AppProps) => {
     };
 
     initializeChatSession();
-  }, [visitorId, chatSessionId, botId, apiBaseURL]);
+  }, [visitorId, botId, apiBaseURL]);
 
   const handleWidgetClick = () => {
     if (isLoading) {
@@ -60,18 +71,12 @@ const App = ({ chatbotConfig }: AppProps) => {
       return;
     }
 
-    console.log("--- 챗봇 위젯 데이터 ---");
-    console.log("Bot ID:", botId);
-    console.log("Visitor ID:", visitorId);
-    console.log("Session ID:", chatSessionId);
-    console.log("----------------------");
-
     setIsChatOpen(true);
   };
 
   return (
-    <div className="fixed bottom-7 right-5 p-5 z-[9997]">
-      {isChatOpen && <ChatWindow />}
+    <div className="fixed bottom-7 right-5 flex flex-col items-end p-5 z-[9997]">
+      {isChatOpen && <ChatWindow chatId={chatSessionId} apiUrl={apiBaseURL} />}
       <ChatbotWidget onClick={handleWidgetClick}></ChatbotWidget>
     </div>
   );

@@ -6,6 +6,16 @@ export const TTL_INFO = {
   SESSION_STORAGE_VISITOR: 7 * 24 * 60 * 60,
 };
 
+export const CHATBOT_DFAULT_VALUE = {
+  NAME: "데스커 안내원",
+  ROLE_DESCRIPTION:
+    "데스커는 회사에 관련된 모든 질문에만 답변해주는 안내원이야. 부드럽지만, 자신감있고, 상냥한 말투로 항상 존댓말로 대답해줘.",
+  CONVERSATION_RULE:
+    "만약 '담당자', '메시지 남겨줘' 와 같은 내용이 질문이 있으면 담당자에게 문의남기기 버튼을 보여줘",
+  KEYWORD_REPLY_RULE:
+    "회사정보에 벗어난 질문을 하게 되면 '죄송합니다. 자사의 관련된 정보 외에는 답변을 드리기 어렵습니다' 라고 답변해줘",
+};
+
 export const ERROR_MESSAGE = {
   NOT_FOUND_BOTID_VISITORID: "해당 봇이나 방문객을 찾을 수 없습니다",
   SESSION_NOT_FOUND: "조회한 채팅방이 없습니다",

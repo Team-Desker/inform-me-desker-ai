@@ -26,6 +26,11 @@ export const GET = async (
   try {
     const messages = await prisma.chatMessage.findMany({
       where: { sessionId: sessionID },
+      select: {
+        id: true,
+        sender: true,
+        content: true
+      },
       orderBy: { createdAt: "asc" },
     });
 
@@ -35,7 +40,10 @@ export const GET = async (
       parts: msg.content ? JSON.parse(msg.content) : [],
     }));
 
-    return NextResponse.json({ messages: uiMessages });
+    return NextResponse.json(
+      { messages: uiMessages },
+      { status: 200 }
+    );
   } catch (error) {
     console.error("메세지 불러오기 에러: ", error);
     return NextResponse.json(

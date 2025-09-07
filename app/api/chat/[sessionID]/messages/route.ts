@@ -1,3 +1,4 @@
+import { ERROR_MESSAGE } from "@/config/constants";
 import prisma from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
@@ -6,7 +7,6 @@ export const GET = async (
   { params }: { params: Promise<{ sessionID: string }> }
 ) => {
   const { sessionID } = await params;
-
   const sessionExists = await prisma.chatSession.findUnique({
     where: { id: sessionID },
   });
@@ -15,8 +15,8 @@ export const GET = async (
     return NextResponse.json(
       {
         error: {
-          code: "NOT_FOUND",
-          message: "요청하신 채팅 세션을 찾을 수 없습니다.",
+          code: "NOT_FOUND_MESSAGES",
+          message: ERROR_MESSAGE.SESSION_NOT_FOUND,
         },
       },
       { status: 404 }

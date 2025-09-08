@@ -7,7 +7,7 @@ interface ChatWindowProps {
   apiUrl: string;
 }
 
-export default function ChatWindow({ chatId, apiUrl }: ChatWindowProps) {
+const ChatWindow = ({ chatId, apiUrl }: ChatWindowProps) => {
   return (
     <iframe
       id="desker-ai-chat-window"
@@ -16,4 +16,6 @@ export default function ChatWindow({ chatId, apiUrl }: ChatWindowProps) {
       title="Desker AI Chat Window"
     />
   );
-}
+};
+
+export default ChatWindow;

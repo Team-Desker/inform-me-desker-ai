@@ -49,3 +49,39 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
+export async function POST(req: Request) {
+  const { userId } = await req.json();
+
+  if (!userId) {
+    return NextResponse.json(
+      {
+        error: {
+          code: "NOT_FOUND_USERID",
+          message: ERROR_MESSAGE.NOT_FOUND_USERID,
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const newChatbot = await prisma.chatbot.create({
+      data: {
+        userId,
+      },
+    });
+    return NextResponse.json(newChatbot, { status: 201 });
+  } catch (error) {
+    console.error("Error creating chatbot:", error);
+    return NextResponse.json(
+      {
+        error: {
+          code: "INTERNAL_SERVER_ERROR",
+          message: ERROR_MESSAGE.INTERNAL_SERVER_ERROR_CHATBOT_CREATION,
+        },
+      },
+      { status: 500 }
+    );
+  }
+}

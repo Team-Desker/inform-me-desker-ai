@@ -85,3 +85,54 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function PUT(req: Request) {
+  const {
+    botId,
+    name,
+    roleDesc,
+    companyUrl,
+    keywordReplyRules,
+    conversationRules,
+  } = await req.json();
+
+  if (!botId) {
+    return NextResponse.json(
+      {
+        error: {
+          code: "NOT_FOUND_BOTID",
+          message: ERROR_MESSAGE.NOT_FOUND_BOTID_VISITORID,
+        },
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const updatedChatbot = await prisma.chatbot.update({
+      where: { id: botId },
+      data: {
+        name,
+        roleDesc,
+        companyUrl,
+        keywordReplyRules,
+        conversationRules,
+        // TODO: 여기에 크롤링과 vectorDB 저장 API를 호출하는 로직을 추가할 수 있습니다.
+        // 예: await startCrawling(companyUrl);
+      },
+    });
+
+    return NextResponse.json(updatedChatbot, { status: 200 });
+  } catch (error) {
+    console.error("Error updating chatbot:", error);
+    return NextResponse.json(
+      {
+        error: {
+          code: "INTERNAL_SERVER_ERROR_UPDATE",
+          message: ERROR_MESSAGE.INTERNAL_SERVER_ERROR_CHATBOT_UPDATE,
+        },
+      },
+      { status: 500 }
+    );
+  }
+}

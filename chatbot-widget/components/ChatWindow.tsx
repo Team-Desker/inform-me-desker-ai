@@ -4,43 +4,6 @@ import { useState, useEffect } from "react";
 
 interface ChatWindowProps {
   chatId: string;
-  apiURL: string;
-}
-
-export default function ChatWindow({ chatId, apiURL }: ChatWindowProps) {
-  const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-
-  const { messages, sendMessage, setMessages } = useChat({
-    id: chatId,
-    transport: new DefaultChatTransport({
-      api: `${apiURL}/api/chat/conversation`,
-    }),
-  });
-
-  useEffect(() => {
-    const loadPrevMessages = async () => {
-      try {
-        const messagesResponse = await fetch(
-          `${apiURL}/api/chat/${chatId}/messages`
-        );
-        const messageData = await messagesResponse.json();
-
-        if (messageData.messages && messageData.messages.length > 0) {
-          setMessages(messageData.messages);
-        }
-
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-
-    loadPrevMessages();
-  }, [apiURL, chatId]);
-
-interface ChatWindowProps {
-  chatId: string;
   apiUrl: string;
 }
 

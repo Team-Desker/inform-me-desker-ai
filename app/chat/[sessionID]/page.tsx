@@ -1,51 +1,126 @@
 "use client";
-import { useState } from "react";
 
-const ChatBot = () => {
+import {
+  Conversation,
+  ConversationContent,
+  ConversationScrollButton,
+} from "@/components/ai-elements/conversation";
+import { Message, MessageContent } from "@/components/ai-elements/message";
+import {
+  PromptInput,
+  PromptInputSubmit,
+  PromptInputTextarea,
+  PromptInputToolbar,
+} from "@/components/ai-elements/prompt-input";
+import { useState, useEffect, Fragment, use } from "react";
+import { useChat } from "@ai-sdk/react";
+import { Response } from "@/components/ai-elements/response";
+import {
+  Source,
+  Sources,
+  SourcesContent,
+  SourcesTrigger,
+} from "@/components/ai-elements/sources";
+import { Loader } from "@/components/ai-elements/loader";
+
+const ChatBot = ({ params }: { params: Promise<{ sessionID: string }> }) => {
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const { messages, setMessages, sendMessage, status } = useChat();
+
+  const { sessionID } = use(params);
+
+  useEffect(() => {
+    const loadPrevMessages = async () => {
+      try {
+        const messagesResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_DESEKER_SERVER_URL}/api/chat/${sessionID}/messages`
+        );
+        const messageData = await messagesResponse.json();
+
+        if (messageData.messages && messageData.messages.length > 0) {
+          setMessages(messageData.messages);
+        }
+      } catch (error) {
+        console.error("기존 메시지 로드하기 실패: ", error);
+      }
+    };
+
+    loadPrevMessages();
+  }, [sessionID]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (input.trim()) {
+      sendMessage({ text: input });
+      setInput("");
+    }
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 relative size-full h-screen">
-      {/* 메시지창 헤더 */}
-      <div className="flex justify-between items-center p-3 border-b border-gray-200">
-        <h3 className="font-bold text-lg text-gray-800">데스커AI 안내원</h3>
-      </div>
-
-      {/* 메시지창 목록 영역 */}
-      <div className="flex-1 p-4 overflow-y-auto">
-        {isLoading ? (
-          <div className="flex justify-center items-center h-screen">
-            Loading...
-          </div>
-        ) : (
-          <div className={`flex "justify-start" mb-4`}>
-            <div
-              className={`max-w-[80%] rounded-lg px-4 py-3 bg-neutral-200 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100`}
-            >
-              <div className="whitespace-pre-wrap">
-                <div>"대화 메시지"</div>
+      <div className="flex flex-col h-full">
+        <Conversation className="h-full">
+          <ConversationContent>
+            {messages.map((message) => (
+              <div key={message.id}>
+                {message.role === "assistant" &&
+                  message.parts.filter((part) => part.type === "source-url")
+                    .length > 0 && (
+                    <Sources>
+                      <SourcesTrigger
+                        count={
+                          message.parts.filter(
+                            (part) => part.type === "source-url"
+                          ).length
+                        }
+                      />
+                      {message.parts
+                        .filter((part) => part.type === "source-url")
+                        .map((part, i) => (
+                          <SourcesContent key={`${message.id}-${i}`}>
+                            <Source
+                              key={`${message.id}-${i}`}
+                              href={part.url}
+                              title={part.url}
+                            />
+                          </SourcesContent>
+                        ))}
+                    </Sources>
+                  )}
+                {message.parts.map((part, i) => {
+                  switch (part.type) {
+                    case "text":
+                      return (
+                        <Fragment key={`${message.id}-${i}`}>
+                          <Message from={message.role}>
+                            <MessageContent>
+                              <Response>{part.text}</Response>
+                            </MessageContent>
+                          </Message>
+                        </Fragment>
+                      );
+                    default:
+                      return null;
+                  }
+                })}
               </div>
-            </div>
-          </div>
-        )}
-      </div>
+            ))}
+            {status === "submitted" && <Loader />}
+          </ConversationContent>
+          <ConversationScrollButton />
+        </Conversation>
 
-      {/* 메시지창 입력 영역 */}
-      <form
-        className="p-3 border-t border-gray-200"
-        onSubmit={(e) => {
-          e.preventDefault();
-          setInput("");
-        }}
-      >
-        <input
-          className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          value={input}
-          placeholder="메시지를 입력하세요..."
-          onChange={(e) => setInput(e.currentTarget.value)}
-        />
-      </form>
+        <PromptInput onSubmit={handleSubmit} className="mt-4">
+          <PromptInputTextarea
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="회사관련 궁금한 정보 저한테 물어보세요"
+            value={input}
+          />
+          <PromptInputToolbar className="flex justify-end">
+            <PromptInputSubmit disabled={!input} status={status} />
+          </PromptInputToolbar>
+        </PromptInput>
+      </div>
     </div>
   );
 };

@@ -17,7 +17,7 @@ const SessionsList = async ({ userId }: { userId: string }) => {
   const chatSessions: any[] = Array.isArray(data) ? data : [];
 
   return (
-    <div className="flex h-full flex-col w-64 border-l border-gray-200 bg-neutral-100 px-3 py-4">
+    <div className="flex h-full flex-col w-58 border-l border-gray-200 bg-neutral-100 px-3 py-4">
       <div className="mb-4 p-2 flex items-center justify-center rounded-md">
         <h2 className="text-lg font-bold text-neutral-800">대화 목록</h2>
       </div>

@@ -8,7 +8,7 @@ type LayoutProps = {
 };
 
 const Layout = ({ params, children }: LayoutProps) => {
-  const { userId, sessionId } = params;
+  const { userId } = params;
   return (
     <div className="flex h-screen flex-row overflow-hidden">
       <div className="flex h-full">
@@ -19,7 +19,7 @@ const Layout = ({ params, children }: LayoutProps) => {
           <SideNavBar userId={userId} />
         </div>
       </div>
-      <div className="flex-grow p-6 md:p-12">{children}</div>
+      <div className="flex-grow p-4 md:p-5">{children}</div>
     </div>
   );
 };

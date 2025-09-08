@@ -39,9 +39,13 @@ const sessionsMessagesPage = ({
   return (
     <div>
       <div className="mb-2">
-        <h2 className="text-lg font-bold">대화 내용</h2>
+        <h2 className="text-lg font-bold text-gray-500 text-opacity-80">
+          대화 내용
+        </h2>
       </div>
-      <ChatConversation messages={messages} status="ready" />
+      <div>
+        <ChatConversation messages={messages} status="ready" />
+      </div>
     </div>
   );
 };

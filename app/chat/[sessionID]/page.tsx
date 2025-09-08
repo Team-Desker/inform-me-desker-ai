@@ -1,28 +1,14 @@
 "use client";
-
-import {
-  Conversation,
-  ConversationContent,
-  ConversationScrollButton,
-} from "@/components/ai-elements/conversation";
-import { Message, MessageContent } from "@/components/ai-elements/message";
+import ChatConversation from "@/app/ui/chat/ChatConversation";
 import {
   PromptInput,
   PromptInputSubmit,
   PromptInputTextarea,
   PromptInputToolbar,
 } from "@/components/ai-elements/prompt-input";
-import {
-  Source,
-  Sources,
-  SourcesContent,
-  SourcesTrigger,
-} from "@/components/ai-elements/sources";
-import { Loader } from "@/components/ai-elements/loader";
-import { useState, useEffect, Fragment, use } from "react";
+import { useState, useEffect, use } from "react";
 import { DefaultChatTransport } from "ai";
 import { useChat } from "@ai-sdk/react";
-import { Response } from "@/components/ai-elements/response";
 
 const ChatBot = ({ params }: { params: Promise<{ sessionID: string }> }) => {
   const { sessionID } = use(params);
@@ -65,57 +51,7 @@ const ChatBot = ({ params }: { params: Promise<{ sessionID: string }> }) => {
   return (
     <div className="max-w-4xl mx-auto p-6 relative size-full h-screen">
       <div className="flex flex-col h-full">
-        <Conversation className="h-full">
-          <ConversationContent>
-            {messages.map((message) => (
-              <div key={message.id}>
-                {message.role === "assistant" &&
-                  message.parts.filter((part) => part.type === "source-url")
-                    .length > 0 && (
-                    <Sources>
-                      <SourcesTrigger
-                        count={
-                          message.parts.filter(
-                            (part) => part.type === "source-url"
-                          ).length
-                        }
-                      />
-                      {message.parts
-                        .filter((part) => part.type === "source-url")
-                        .map((part, i) => (
-                          <SourcesContent key={`${message.id}-${i}`}>
-                            <Source
-                              key={`${message.id}-${i}`}
-                              href={part.url}
-                              title={part.url}
-                            />
-                          </SourcesContent>
-                        ))}
-                    </Sources>
-                  )}
-                {message.parts.map((part, i) => {
-                  switch (part.type) {
-                    case "text":
-                      return (
-                        <Fragment key={`${message.id}-${i}`}>
-                          <Message from={message.role}>
-                            <MessageContent>
-                              <Response>{part.text}</Response>
-                            </MessageContent>
-                          </Message>
-                        </Fragment>
-                      );
-                    default:
-                      return null;
-                  }
-                })}
-              </div>
-            ))}
-            {status === "submitted" && <Loader />}
-          </ConversationContent>
-          <ConversationScrollButton />
-        </Conversation>
-
+        <ChatConversation messages={messages} status={status} />
         <PromptInput onSubmit={handleSubmit} className="mt-4">
           <PromptInputTextarea
             onChange={(e) => setInput(e.target.value)}

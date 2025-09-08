@@ -13,7 +13,8 @@ const SessionsList = async ({ userId }: { userId: string }) => {
     `http://localhost:3000/api/dashboard/sessions`,
     { headers: { cookie: cookieHeader }, cache: "no-store" }
   );
-  const { parsedSessions } = await dataResponse.json();
+  const { data } = await dataResponse.json();
+  const chatSessions: any[] = Array.isArray(data) ? data : [];
 
   return (
     <div className="flex h-full flex-col w-64 border-l border-gray-200 bg-neutral-100 px-3 py-4">
@@ -23,7 +24,7 @@ const SessionsList = async ({ userId }: { userId: string }) => {
 
       <div className="flex grow flex-col overflow-y-auto">
         <ul className="space-y-2">
-          {parsedSessions.map((session: any) => (
+          {chatSessions.map((session: any) => (
             <li key={session.sessionId}>
               <Link
                 href={`/dashboard/${userId}/invoices/sessions/${session.sessionId}/messages`}

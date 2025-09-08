@@ -18,7 +18,10 @@ export const CHATBOT_DFAULT_VALUE = {
 
 export const ERROR_MESSAGE = {
   NOT_FOUND_BOTID_VISITORID: "해당 봇이나 방문객을 찾을 수 없습니다",
+  NOT_FOUND_USERID: "User ID 필수 요청사항 입니다.",
+  CHATBOT_NOT_FOUND: "소유한 챗봇을 찾을 수 없습니다",
   SESSION_NOT_FOUND: "조회한 채팅방이 없습니다",
   INVALID_MESSAGES: "유효하지 않는 채팅 메시지 입니다.",
   INTERNAL_SERVER_ERROR_SESSION: "새로운 채팅방 생성하는데 실패했습니다",
+  INTERNAL_SERVER_ERROR_CHATBOT: "챗봇 조회의 서버 에러가 났습니다",
 };

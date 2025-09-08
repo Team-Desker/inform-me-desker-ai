@@ -12,9 +12,6 @@ import {
   PromptInputTextarea,
   PromptInputToolbar,
 } from "@/components/ai-elements/prompt-input";
-import { useState, useEffect, Fragment, use } from "react";
-import { useChat } from "@ai-sdk/react";
-import { Response } from "@/components/ai-elements/response";
 import {
   Source,
   Sources,
@@ -22,12 +19,21 @@ import {
   SourcesTrigger,
 } from "@/components/ai-elements/sources";
 import { Loader } from "@/components/ai-elements/loader";
+import { useState, useEffect, Fragment, use } from "react";
+import { DefaultChatTransport } from "ai";
+import { useChat } from "@ai-sdk/react";
+import { Response } from "@/components/ai-elements/response";
 
 const ChatBot = ({ params }: { params: Promise<{ sessionID: string }> }) => {
-  const [input, setInput] = useState("");
-  const { messages, setMessages, sendMessage, status } = useChat();
-
   const { sessionID } = use(params);
+
+  const [input, setInput] = useState("");
+  const { messages, setMessages, sendMessage, status } = useChat({
+    id: sessionID,
+    transport: new DefaultChatTransport({
+      api: `${process.env.NEXT_PUBLIC_DESEKER_SERVER_URL}/api/chat/conversation`,
+    }),
+  });
 
   useEffect(() => {
     const loadPrevMessages = async () => {

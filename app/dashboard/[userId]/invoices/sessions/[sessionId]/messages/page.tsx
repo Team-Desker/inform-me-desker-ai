@@ -1,53 +1,52 @@
-import { cookies } from "next/headers";
+"use client";
+import { useState, useEffect, use } from "react";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import ChatConversation from "@/app/ui/chat/ChatConversation";
+// import { UIMessage } from "ai";
 
-type PageProps = {
-  params: { userId: string; sessionId: string };
-};
+// type Message = {
+//   messages: UIMessage[];
+// };
 
-const sessionsMessagesPage = async ({ params }: PageProps) => {
-  const { userId, sessionId } = await params;
+const sessionsMessagesPage = ({
+  params,
+}: {
+  params: Promise<{ sessionId: string }>;
+}) => {
+  const { sessionId } = use(params);
+  const { messages, setMessages } = useChat({
+    id: sessionId,
+    transport: new DefaultChatTransport({
+      api: `${process.env.NEXT_PUBLIC_DESEKER_SERVER_URL}/api/chat/conversation`,
+    }),
+  });
 
-  const cookieHeader = await cookies();
-  const cookieHeaderChangeString = await cookieHeader.toString();
+  useEffect(() => {
+    const loadPrevMessages = async () => {
+      try {
+        const messagesResponse = await fetch(
+          `${process.env.NEXT_PUBLIC_DESEKER_SERVER_URL}/api/chat/${sessionId}/messages`
+        );
+        const messageData = await messagesResponse.json();
 
-  const dataResponse = await fetch(
-    `http://localhost:3000/api/dashboard/sessions/${sessionId}/messages`,
-    { headers: { cookie: cookieHeaderChangeString }, cache: "no-store" }
-  );
+        if (messageData.messages && messageData.messages.length > 0) {
+          setMessages(messageData.messages);
+        }
+      } catch (error) {
+        console.error("기존 메시지 로드하기 실패: ", error);
+      }
+    };
 
-  const responseJson = await dataResponse.json();
-  const chatMessages: any[] = responseJson.parsedMessage;
+    loadPrevMessages();
+  }, [sessionId]);
 
   return (
     <div>
-      <header className="mb-2">
+      <div className="mb-2">
         <h2 className="text-lg font-bold">대화 내용</h2>
-        <p className="text-xs text-gray">
-          userId: {userId}
-          <br />
-          sessionId: {sessionId}
-        </p>
-      </header>
-
-      <ul className="space-y-2">
-        {chatMessages.map((message) => {
-          const text = String(message.content);
-          return (
-            <li
-              key={message.messageId}
-              className="rounded-md border border-gray-200 p-3"
-            >
-              <div className="flex items-center justify-between">
-                <span className="text-xl text-gray-500">{message.sender}</span>
-                <span className="text-xs text-gray-400">
-                  {new Date(message.createdAt).toLocaleString()}
-                </span>
-              </div>
-              <p className="mt-2 text-sm whitespace-pre-wrap">{text}</p>
-            </li>
-          );
-        })}
-      </ul>
+      </div>
+      <ChatConversation messages={messages} status="ready" />
     </div>
   );
 };

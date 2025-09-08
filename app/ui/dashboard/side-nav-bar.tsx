@@ -3,13 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const SideNavBar = ({
-  userId,
-  sessionId,
-}: {
-  userId: string;
-  sessionId: string;
-}) => {
+const SideNavBar = ({ userId }: { userId: string }) => {
   const pathname = usePathname();
 
   let sectionTitle = "";

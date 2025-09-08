@@ -1,13 +1,8 @@
 "use client";
-import { useState, useEffect, use } from "react";
+import { useEffect, use } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import ChatConversation from "@/app/ui/chat/ChatConversation";
-// import { UIMessage } from "ai";
-
-// type Message = {
-//   messages: UIMessage[];
-// };
 
 const sessionsMessagesPage = ({
   params,

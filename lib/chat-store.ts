@@ -2,6 +2,7 @@ import prisma from "@/lib/prisma";
 import { MESSAGE_SENDER } from "@/app/generated/prisma";
 import { UIMessage } from "ai";
 import { NextResponse } from "next/server";
+import { ERROR_MESSAGE } from "@/config/constants";
 
 export const saveChat = async ({
   chatId,
@@ -12,14 +13,15 @@ export const saveChat = async ({
 }) => {
   const chatSession = await prisma.chatSession.findUnique({
     where: { id: chatId },
+    select: { id: true },
   });
 
   if (!chatSession) {
     return NextResponse.json(
       {
         error: {
-          code: "NOT_FOUND",
-          message: "요청하신 채팅 세션을 찾을 수 없습니다.",
+          code: "NOT_FOUND_SESSION",
+          message: ERROR_MESSAGE.SESSION_NOT_FOUND,
         },
       },
       { status: 404 }

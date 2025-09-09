@@ -8,6 +8,7 @@ export const TTL_INFO = {
 
 export const CHATBOT_DFAULT_VALUE = {
   NAME: "데스커 안내원",
+  COMPANY_URL: "https://www.naver.com",
   ROLE_DESCRIPTION:
     "데스커는 회사에 관련된 모든 질문에만 답변해주는 안내원이야. 부드럽지만, 자신감있고, 상냥한 말투로 항상 존댓말로 대답해줘.",
   CONVERSATION_RULE:

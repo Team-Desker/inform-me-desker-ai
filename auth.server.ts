@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
+import bcrypt from "bcrypt";
 
 const providers: Provider[] = [
   Credentials({
@@ -17,14 +18,20 @@ const providers: Provider[] = [
 
       const user = await prisma.user.findUnique({
         where: { email },
-        select: { id: true },
+        select: { id: true, passwordHash: true },
       });
+
       if (!user) return null;
+
+      const passwordValid = await bcrypt.compare(password, user.passwordHash);
+
+      if (!passwordValid) return null;
 
       const chatbot = await prisma.chatbot.findFirst({
         where: { userId: user.id },
         select: { id: true },
       });
+
       if (!chatbot) return null;
 
       return {

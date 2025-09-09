@@ -21,15 +21,15 @@ const providers: Provider[] = [
       });
       if (!user) return null;
 
-      const bot = await prisma.chatbot.findFirst({
+      const chatbot = await prisma.chatbot.findFirst({
         where: { userId: user.id },
         select: { id: true },
       });
-      if (!bot) return null;
+      if (!chatbot) return null;
 
       return {
         id: user.id,
-        botId: bot.id,
+        botId: chatbot.id,
       };
     },
   }),

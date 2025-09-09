@@ -25,10 +25,6 @@ const providers: Provider[] = [
 
       if (!user) return null;
 
-      const passwordValid = await bcrypt.compare(password, user.passwordHash);
-
-      if (!passwordValid) return null;
-
       const chatbot = await prisma.chatbot.findFirst({
         where: { userId: user.id },
         select: { id: true },

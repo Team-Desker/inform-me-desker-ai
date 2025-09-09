@@ -1,6 +1,7 @@
 import { ERROR_MESSAGE } from "@/config/constants";
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import { PROCESSING_STATUS } from "@/app/generated/prisma";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -109,7 +110,7 @@ export async function PUT(req: Request) {
   }
 
   try {
-    const updatedChatbot = await prisma.chatbot.update({
+    await prisma.chatbot.update({
       where: { id: botId },
       data: {
         name,
@@ -117,8 +118,16 @@ export async function PUT(req: Request) {
         companyUrl,
         keywordReplyRules,
         conversationRules,
-        // TODO: 여기에 크롤링과 vectorDB 저장 API를 호출하는 로직을 추가할 수 있습니다.
-        // 예: await startCrawling(companyUrl);
+        indexStatus: PROCESSING_STATUS.PROCESSING,
+      },
+    });
+    // TODO: 여기에 크롤링과 vectorDB 저장 API를 호출하는 로직을 추가할 수 있습니다.
+    // 예: await startCrawling(companyUrl);
+
+    const updatedChatbot = await prisma.chatbot.update({
+      where: { id: botId },
+      data: {
+        indexStatus: PROCESSING_STATUS.COMPLETED,
       },
     });
 

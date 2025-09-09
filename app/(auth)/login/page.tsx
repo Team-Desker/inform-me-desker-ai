@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import Link from "next/link";
 import { Mail, Lock } from "lucide-react";
@@ -11,8 +13,30 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
+  const [error, setError] = React.useState<string | null>(null);
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+
+    const form = new FormData(e.currentTarget);
+    const email = String(form.get("email") || "");
+    const password = String(form.get("password") || "");
+
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: true,
+      callbackUrl: "http://localhost:3000",
+    });
+
+    if (res?.error) {
+      setError("이메일 또는 비밀번호를 다시 확인해주세요.");
+    }
+  };
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-background via-muted/50 to-muted/30 flex items-center justify-center p-6">
       <Card className="w-full max-w-md shadow-lg">
@@ -24,7 +48,7 @@ const LoginPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form className="grid gap-4">
+          <form className="grid gap-4" onSubmit={onSubmit}>
             <div className="grid gap-2">
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 opacity-60" />

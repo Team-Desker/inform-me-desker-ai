@@ -3,7 +3,7 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import { PROCESSING_STATUS } from "@/app/generated/prisma";
 
-export async function GET(req: NextRequest) {
+export const GET = async (req: NextRequest) => {
   const searchParams = req.nextUrl.searchParams;
   const userId = searchParams.get("userId");
 
@@ -49,9 +49,9 @@ export async function GET(req: NextRequest) {
       { status: 500 }
     );
   }
-}
+};
 
-export async function POST(req: Request) {
+export const POST = async (req: Request) => {
   const { userId } = await req.json();
 
   if (!userId) {
@@ -85,9 +85,9 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
-}
+};
 
-export async function PUT(req: Request) {
+export const PUT = async (req: Request) => {
   const {
     botId,
     name,
@@ -144,4 +144,4 @@ export async function PUT(req: Request) {
       { status: 500 }
     );
   }
-}
+};

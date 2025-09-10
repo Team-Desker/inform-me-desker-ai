@@ -11,6 +11,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { redirect } from "next/navigation";
+import prisma from "@/lib/prisma";
+import bcrypt from "bcrypt";
+import { signUpSchema } from "@/lib/validators/auth";
 
 const SignupPage = () => {
   return (
@@ -24,7 +28,26 @@ const SignupPage = () => {
         </CardHeader>
 
         <CardContent>
-          <form action="/api/auth/signup" method="post" className="grid gap-4">
+          <form
+            action={async (formData) => {
+              "use server";
+
+              const email = String(formData.get("email") || "")
+                .trim()
+                .toLowerCase();
+              const password = String(formData.get("password") || "").trim();
+              const phoneNumber = String(
+                formData.get("phoneNumber") || ""
+              ).replace(/\D/g, "");
+
+              const passwordHash = await bcrypt.hash(password, 12);
+              await prisma.user.create({
+                data: { email, passwordHash, phoneNumber },
+              });
+
+              redirect(`/login?email=${encodeURIComponent(email)}`);
+            }}
+          >
             <div className="grid gap-2">
               <label htmlFor="email" className="text-sm font-medium">
                 이메일

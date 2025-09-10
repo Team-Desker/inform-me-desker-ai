@@ -1,7 +1,7 @@
 import { auth } from "@/auth.server";
 import { redirect } from "next/navigation";
 
-const DashboardHub = () => {
+const DashboardHub = async () => {
   const session = await auth();
   if (!session) redirect("/login");
 

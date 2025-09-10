@@ -32,11 +32,9 @@ const providers: Provider[] = [
         select: { id: true },
       });
 
-      if (!chatbot) return null;
-
       return {
         id: user.id,
-        botId: chatbot.id,
+        botId: chatbot?.id ?? null,
       };
     },
   }),

@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "@/config/constants";
+import { ERROR_MESSAGE } from "@/config/constants";
 
 export const GET = async (
   _req: NextRequest,
@@ -9,29 +9,9 @@ export const GET = async (
 ) => {
   try {
     const userSession = await auth();
-    const userId =
-      userSession && userSession.user && "id" in userSession.user
-        ? userSession.user.id
-        : null;
+    const userChatbotId = userSession.botId;
 
-    if (!userId) {
-      return NextResponse.json(
-        {
-          error: {
-            code: "LOGIN_REQUIRED",
-            message: ERROR_MESSAGE.LOGIN_REQUIRED,
-          },
-        },
-        { status: 401 }
-      );
-    }
-
-    const userChatbot = await prisma.chatbot.findFirst({
-      where: { userId: userId },
-      select: { id: true, name: true },
-    });
-
-    if (!userChatbot) {
+    if (!userChatbotId) {
       return NextResponse.json(
         {
           error: {
@@ -45,11 +25,10 @@ export const GET = async (
 
     const { sessionId } = await params;
     const chatBotSessions = await prisma.chatSession.findFirst({
-      where: { id: sessionId, botId: userChatbot.id },
+      where: { id: sessionId, botId: userChatbotId },
       select: {
         id: true,
         visitorId: true,
-        isRead: true,
         createdAt: true,
       },
     });
@@ -72,27 +51,19 @@ export const GET = async (
       select: { id: true, sender: true, content: true, createdAt: true },
     });
 
-    const parsedMessage = chatMessages.map((message) => {
-      const parsedContentMessage = JSON.parse(message.content);
+    const chatMessageObjects = chatMessages.map((message) => {
+      const contentMessage = JSON.parse(message.content);
       return {
         messageId: message.id,
         sender: message.sender,
-        content: parsedContentMessage,
+        content: contentMessage,
         createdAt: message.createdAt,
       };
     });
 
     return NextResponse.json(
       {
-        data: {
-          session: {
-            sessionId: chatBotSessions.id,
-            visitorId: chatBotSessions.visitorId,
-            isRead: chatBotSessions.isRead,
-          },
-          parsedMessage,
-        },
-        message: SUCCESS_MESSAGE.MESSAGE_FETCH,
+        chatMessageObjects,
       },
       { status: 200 }
     );

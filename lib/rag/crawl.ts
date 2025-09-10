@@ -22,6 +22,7 @@ export class Crawler {
         const response = await fetch(currentSitemapUrl, {
           next: { revalidate: 0 },
         });
+
         if (!response.ok) {
           console.error(
             `${currentSitemapUrl}에서 사이트맵을 찾을 수 없거나 가져오는데 실패했습니다`

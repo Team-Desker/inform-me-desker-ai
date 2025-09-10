@@ -38,7 +38,7 @@ export const POST = async (req: NextRequest) => {
 
     const SALT_ROUNDS = 12;
     const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
-    const signInUser = await prisma.user.create({
+    await prisma.user.create({
       data: { email, passwordHash, phoneNumber },
       select: { id: true, email: true, createdAt: true },
     });

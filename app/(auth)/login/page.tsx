@@ -82,7 +82,6 @@ const LoginPage = () => {
                 </Link>
               </div>
               <div className="flex items-center justify-between">
-                <label className="flex items-center gap-2 text-sm"></label>
                 <Link
                   href="/signup"
                   className="text-sm underline underline-offset-4 hover:opacity-80"

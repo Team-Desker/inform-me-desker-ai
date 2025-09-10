@@ -10,7 +10,7 @@ type LayoutProps = {
 const SessionsList = async ({ userId }: { userId: string }) => {
   const cookieHeader = (await cookies()).toString();
   const dataResponse = await fetch(
-    `http://localhost:3000/api/dashboard/sessions`,
+    `${process.env.NEXT_PUBLIC_DESEKER_SERVER_URL}/api/dashboard/sessions`,
     { headers: { cookie: cookieHeader }, cache: "no-store" }
   );
   const { data } = await dataResponse.json();

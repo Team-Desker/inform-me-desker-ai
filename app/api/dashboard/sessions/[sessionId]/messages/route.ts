@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "@/config/constants";
 
 export const GET = async (
   _req: NextRequest,
@@ -18,7 +19,7 @@ export const GET = async (
         {
           error: {
             code: "LOGIN_REQUIRED",
-            message: "로그인이 필요합니다.",
+            message: ERROR_MESSAGE.LOGIN_REQUIRED,
           },
         },
         { status: 401 }
@@ -35,7 +36,7 @@ export const GET = async (
         {
           error: {
             code: "CHATBOT_NOT_FOUND",
-            message: "연결된 해당 챗봇이 존재하지 않습니다.",
+            message: ERROR_MESSAGE.CHATBOT_NOT_FOUND,
           },
         },
         { status: 404 }
@@ -58,7 +59,7 @@ export const GET = async (
         {
           error: {
             code: "CHAT_LIST_FETCH_FAILURE",
-            message: "대화목록 조회가 실패하였습니다.",
+            message: ERROR_MESSAGE.CHAT_LIST_FETCH_FAILURE,
           },
         },
         { status: 404 }
@@ -91,7 +92,7 @@ export const GET = async (
           },
           parsedMessage,
         },
-        message: "상세 대화 조회하였습니다.",
+        message: SUCCESS_MESSAGE.MESSAGE_FETCH,
       },
       { status: 200 }
     );
@@ -100,7 +101,7 @@ export const GET = async (
       {
         error: {
           code: "MESSAGE_FETCH_FAILURE",
-          message: "상세 대화 조회가 실패하였습니다.",
+          message: ERROR_MESSAGE.MESSAGE_FETCH_FAILURE,
         },
       },
       { status: 500 }

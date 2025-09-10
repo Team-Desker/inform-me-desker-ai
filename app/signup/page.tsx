@@ -14,7 +14,6 @@ import { Input } from "@/components/ui/input";
 import { redirect } from "next/navigation";
 import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
-import { signUpSchema } from "@/lib/validators/auth";
 
 const SignupPage = () => {
   return (

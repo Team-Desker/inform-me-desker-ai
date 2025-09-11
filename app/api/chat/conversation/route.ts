@@ -50,9 +50,11 @@ export const POST = async (req: Request) => {
     ${context}
     END OF CONTEXT BLOCK
     AI assistant will take into account any CONTEXT BLOCK that is provided in a conversation.
-    If the context does not provide the answer to question, the AI assistant will say, "회사 관련없는 정보는 대답해줄 수 없습니다".
+    If the context does not provide the answer to question, the AI assistant will say, ${bot.conversationRules}.
     AI assistant will not apologize for previous responses, but instead will indicated new information was gained.
     AI assistant will not invent anything that is not drawn directly from the context.
+    Here are some rules you must follow:
+    - If you are asked about a keyword, follow these rules: ${bot.keywordReplyRules}
   `;
 
   try {
@@ -73,7 +75,7 @@ export const POST = async (req: Request) => {
   }
 
   const result = streamText({
-    model: google("gemini-1.5-flash"),
+    model: google("gemini-2.5-flash"),
     system: systemPrompt,
     messages: convertToModelMessages(messages),
   });

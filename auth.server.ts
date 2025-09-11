@@ -3,6 +3,7 @@ import type { Provider } from "next-auth/providers";
 import Credentials from "next-auth/providers/credentials";
 import prisma from "./lib/prisma";
 import bcrypt from "bcrypt";
+import validator from "validator";
 
 const providers: Provider[] = [
   Credentials({
@@ -11,11 +12,13 @@ const providers: Provider[] = [
       password: { label: "Password", type: "password" },
     },
     async authorize(c) {
-      const email = (c?.email ?? "") as string;
-      const password = (c?.password ?? "") as string;
 
-      if (!email || !password) return null;
+      const email = String(c?.email ?? "");
+      const validatedEmail = validator.isEmail(email);
+      const password = String(c?.password ?? "").trim();
 
+      if (!validatedEmail || !password) return null;
+      
       const user = await prisma.user.findUnique({
         where: { email },
         select: { id: true, passwordHash: true },

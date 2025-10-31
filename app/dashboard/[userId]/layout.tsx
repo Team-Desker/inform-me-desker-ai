@@ -1,6 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
-import SidebarShell from "@/app/ui/dashboard/side-bar-shell";
-import { cookies } from "next/headers";
+import SideBarShell from "@/app/ui/dashboard/side-bar-shell";
 
 type LayoutProps = {
   params: Promise<{ userId: string }>;
@@ -15,7 +14,7 @@ const Layout = async ({ params, children }: LayoutProps) => {
       defaultOpen={true}
       style={{ "--sidebar-width": "4.5rem" } as React.CSSProperties}
     >
-      <SidebarShell userId={userId}>{children}</SidebarShell>
+      <SideBarShell userId={userId}>{children}</SideBarShell>
     </SidebarProvider>
   );
 };

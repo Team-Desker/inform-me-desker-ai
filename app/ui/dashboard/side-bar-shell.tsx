@@ -26,7 +26,7 @@ type SidebarShellProps = {
   children: React.ReactNode;
 };
 
-const SidebarShell = ({ userId, children }: SidebarShellProps) => {
+const SideBarShell = ({ userId, children }: SidebarShellProps) => {
   const pathname = usePathname();
 
   const items = [
@@ -107,4 +107,4 @@ const SidebarShell = ({ userId, children }: SidebarShellProps) => {
   );
 };
 
-export default SidebarShell;
+export default SideBarShell;

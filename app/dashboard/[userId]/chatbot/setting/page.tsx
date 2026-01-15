@@ -157,12 +157,10 @@ const ChatbotSetting = ({
   }
 
   return (
-    <div className="flex-1 space-y-4">
-      <h2 className="text-3xl font-bold tracking-tight">AI 챗봇 설정</h2>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+    <div className="flex-1 space-y-4 mx-4 my-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start min-h-0">
         {/* 왼쪽: 설정 카드 */}
-        <div className="lg:col-span-2 space-y-8  max-h-[calc(100vh-12rem)] overflow-y-auto pr-6">
+        <div className="lg:col-span-2 space-y-8 pr-6">
           <Card>
             <CardHeader>
               <CardTitle>데스커 기본 설정</CardTitle>
@@ -269,7 +267,7 @@ const ChatbotSetting = ({
         </div>
 
         {/* 오른쪽: 모의 채팅방 */}
-        <div className="lg:col-span-1">
+        <div className="lg:col-span-1 sticky top-4 self-start mr-4">
           <Card className="h-[700px] flex flex-col">
             <CardHeader className="flex-row items-center justify-between space-y-0">
               <div>
